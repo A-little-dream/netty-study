@@ -22,8 +22,10 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+        System.out.println(msg.getClass());
+        System.out.println("remote address is :"+ctx.channel().remoteAddress());
         if (msg instanceof  HttpRequest){
-
+                System.out.println("exec channelRead0()");
             ByteBuf content= Unpooled.copiedBuffer("你好netty", CharsetUtil.UTF_8);
             FullHttpResponse fullHttpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
             fullHttpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain");
@@ -32,6 +34,37 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
             ctx.writeAndFlush(fullHttpResponse);
         }
 
+    }
 
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("exec channelActive");
+        super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("exec channelRegistered");
+        super.channelRegistered(ctx);
+    }
+
+    @Override
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("exec handlerAdded");
+        super.handlerAdded(ctx);
+    }
+
+
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("exec channelUnregistered");
+        super.channelUnregistered(ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("exec channelInactive");
+        super.channelInactive(ctx);
     }
 }
