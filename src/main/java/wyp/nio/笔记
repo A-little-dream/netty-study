@@ -1,0 +1,33 @@
+1 java.io  是面向流的编程
+2 java.nio有3个核心概念  Selector , Channel Buffer 在java.nio中面向的是 块编程 或者面向（buffer）缓冲区编程
+    buffer本身就是一块内存，底层实现上其实是个数组，数据的读写都是通过buffer实现的。一个buffer既可以读也可以写
+3 除了数组以为 buffer还提供了数据的结构化访问，可以追踪到系统的读写过程
+4 java提供的8种基本数据类型都有各自对应的buffer类型   如： IntBuffer   LongBuffer   ByteBuffer但是没有boolenBuffer类型
+5 Nio 中的channel指的是可以向其中写入数据或者是从中读取数据的对象，类似java io中的stream
+6 所有的数据读写都是通过buffer进行的，不会出现直接从channel中写入、读取数据的情况。
+7 与stream不同的是  channel是双向的，一个流要么是InputStream/OutPutStream 而同一个channel是可以进行读取、写入的
+==================================
+
+-------------->nio buffer中3个重要的 状态属性的含义 ：position  limit  capacity
+
+三个元素具体见   2018年最新深入netty 零基础到精通 张龙老师（完结）  p34
+--> 1 capacity
+    一个buffer的capacity就是一个buffer的容量，它定义了以后就不可变了，不可以为负数
+
+
+
+--> 2 limit
+       is the index of the first element that should  not be read or written
+
+
+--> 3 position
+       is the index of the next element to be read or written. A buffer's position is never negative and is never  greater than its limit.
+       通俗说就是：position是将要去读或者去写的那个元素的索引
+
+capacity的值是不会变化的
+   读操作会改变position的位置 当一个buffer被创建出来的时候position指向第一个元素的位置，此时buffer中还没有元素
+--> 调用flip方法后发生的改变
+  flip()会改变position的位置，无论position所指向哪里，调用方法以后都会指向第一个元素
+  然后limit的指向位置则会指向之前position所指向的位置
+
+
